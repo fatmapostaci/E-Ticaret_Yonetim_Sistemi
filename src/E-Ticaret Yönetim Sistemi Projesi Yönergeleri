@@ -1,5 +1,6 @@
 # E-Ticaret Yönetim Sistemi Projesi Yönergeleri
-Bu proje, öğrencilerin POJO class, constructor, static ve instance değişkenler gibi kavramları uygulamalı olarak öğrenmelerini sağlayacak.
+Bu proje, öğrencilerin POJO class, constructor, static ve instance değişkenler gibi kavramları
+uygulamalı olarak öğrenmelerini sağlayacak.
 Aşağıda proje adımları detaylı bir şekilde açıklanmıştır.
 ---
 ## 1. Adım: Projenin Tanıtımı
@@ -40,5 +41,9 @@ Aşağıda proje adımları detaylı bir şekilde açıklanmıştır.
    - `static ArrayList<Order> orderList`
    - `static int totalSoldProducts`
 3. Bir menü oluşturun ve kullanıcıdan aşağıdaki işlemleri yapmasını isteyin:
- Ç
+   - 1: **Ürün Ekle**: Kullanıcıdan ürün bilgilerini alıp listeye ekleyin.
+   - 2: **Ürünleri Listele**: Mevcut ürünleri yazdırın.
+   - 3: **Sipariş Oluştur**: Kullanıcının seçtiği bir ürün için sipariş oluşturun.
+   - 4: **Toplam Satılan Ürünleri Görüntüle**.
+   - 5: **Çıkış**.
 4. Her menü işlemi için uygun metotlar yazın.

@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class ECommerceApp {
@@ -8,34 +9,16 @@ public class ECommerceApp {
     static int totalSoldProducts;
 
     public static void main(String[] args) {
-        menu();
-    }
 
-    private static void menu() {
+        Order.menu();
+        Order.addNewProduct(productList);
 
-        System.out.println("   - 1: **Ürün Ekle**: Kullanıcıdan ürün bilgilerini alıp listeye ekleyin.\n" +
-                "   - 2: **Ürünleri Listele**: Mevcut ürünleri yazdırın.\n" +
-                "   - 3: **Sipariş Oluştur**: Kullanıcının seçtiği bir ürün için sipariş oluşturun.\n" +
-                "   - 4: **Toplam Satılan Ürünleri Görüntüle**.\n" +
-                "   - 5: **Çıkış**.");
-    }
-
-    private static void addNewProduct(){
-        Scanner sc = new Scanner(System.in);
+//        Product notebook = new Product("Notebook" , "Electronics",5350.0,340);
+//        Product blanket = new Product("Blanket" , "HomeStuff",1530.0,90);
+        //Order school = new Order(3,productList.get(0));
 
     }
 
-    private static void listProducts(){
-
-    }
-
-    private static void orderProduct(){
-
-    }
-
-    private static void listSoldProducts(){
-
-    }
 
 
 }
