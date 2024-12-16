@@ -2,6 +2,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Order {
+    final int base = 20000;
     static int orderIdCounter;
     int orderId;
     Product product;
@@ -11,10 +12,10 @@ public class Order {
     static Scanner sc = new Scanner(System.in);
 
     public Order(int quantity, Product product) {
-        this.totalPrice += product.price;
+        this.totalPrice = product.price*quantity;
         this.quantity = quantity;
         this.product = product;
-        this.orderId= orderIdCounter++;
+        this.orderId = base + orderIdCounter++;
     }
 
     @Override
@@ -27,6 +28,7 @@ public class Order {
                 '}';
 
     }
+
     public static void menu() {
 
         System.out.println("   - 1: **Ürün Ekle**: \n" +
@@ -39,43 +41,72 @@ public class Order {
     /**
      * Kullanıcıdan ürün bilgilerini alıp listeye ekler.
      */
-    public static void addNewProduct(List<Product> productList ){
+    public static void addNewProduct() {
+
         System.out.print("Sisteme eklenecek ürün adı: ");
         String name = sc.next();
         System.out.print("Kategori bilgisi: ");
         String category = sc.next();
         System.out.print("Ürün fiyatı: ");
         double price = sc.nextDouble();
-        System.out.print("Ürün adedi: ");
+        System.out.print("Ürün stoğu: ");
         int stock = sc.nextInt();
 
-        Product pen = new Product( name, category, price, stock );
-        productList.add(pen);
+        Product pen = new Product(name, category, price, stock);
+        ECommerceApp.productList.add(pen);
     }
 
     /**
      * Mevcut ürünleri yazdırır
-     * @param productList
+     *
+     * @param
      */
-    public static void listProducts(List<Product> productList){
-        for (Product p : productList)
-            System.out.println(p);
+    public static void listProducts() {
+        for (Order orderedProduct : ECommerceApp.orderList)
+            System.out.println(orderedProduct);
     }
 
     /**
      * Kullanıcının seçtiği bir ürün için sipariş oluşturur.
      */
-    public static void orderProduct(Product p, List<Order> orderList){
-        System.out.print("Sipariş edilecek ürün ID: ");
-        p.productId = sc.nextInt();
-        System.out.print("Sipariş adeti: ");
-        int quantity = sc.nextInt();
-        Order order1 = new Order(quantity, p);
-        orderList.add(order1);
+    public static void orderProduct() {
+        //the products is listed before asking for productId
+        listProducts();
+
+        int productId = 0;
+        try {
+            System.out.print("Sipariş edilecek ürün ID: ");
+            productId = sc.nextInt();
+        } catch (Exception e) {
+
+            System.out.println("ID kabul edilmedi. " + e);
+            //productId question will be asked recursively until an acceptable id is entered
+            orderProduct();
+        }
+
+        for (Product p : ECommerceApp.productList) {
+            if (p.productId == productId) {
+                System.out.print("Sipariş adeti: ");
+                int quantity = sc.nextInt();
+                Order newOrder = new Order(quantity, p);
+                ECommerceApp.orderList.add(newOrder);
+                System.out.println(productId);
+                break;
+            }//productId listede yok ise else bloğu çalışır
+            //     else {
+            //         System.out.println("ID kabul edilmedi. ");
+            //         //productId question will be asked recursively until an acceptable id is entered
+            //         orderProduct();
+
+            //     }
+        }
+    }//rakam girilmediğinde exception bloğu çalışır.
+
+
+    public static void listSoldProducts() {
+        System.out.println(ECommerceApp.orderList);
+
     }
 
-    public static void listSoldProducts(){
-
-    }
 
 }

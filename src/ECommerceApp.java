@@ -4,18 +4,27 @@ import java.util.Scanner;
 
 public class ECommerceApp {
 
-    static ArrayList<Product> productList;
-    static ArrayList<Order> orderList;
+    static ArrayList<Product> productList = new ArrayList<>();
+    static ArrayList<Order> orderList= new ArrayList<>();
     static int totalSoldProducts;
 
     public static void main(String[] args) {
 
-        Order.menu();
-        Order.addNewProduct(productList);
 
-//        Product notebook = new Product("Notebook" , "Electronics",5350.0,340);
-//        Product blanket = new Product("Blanket" , "HomeStuff",1530.0,90);
-        //Order school = new Order(3,productList.get(0));
+
+        Product notebook = new Product("Notebook" , "Electronics",5350.0,340);
+        Product blanket = new Product("Blanket" , "HomeStuff",1530.0,90);
+        Product babydoll = new Product("Babydoll" , "Toys",750.0,40);
+        productList.addAll(List.of(notebook,blanket,babydoll));
+
+        Order.menu();
+        //Order.addNewProduct();
+        System.out.println(productList);
+        Order school = new Order(3,productList.get(0));
+
+        Order.listProducts();
+        Order.orderProduct();
+        Order.listProducts();
 
     }
 
