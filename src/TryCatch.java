@@ -1,6 +1,8 @@
+import java.util.Scanner;
 
 public class TryCatch {
 
+    static Scanner scan = new Scanner(System.in);
     public static int intGirisi() {
         int giris = 0;
         boolean flag = true;

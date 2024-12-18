@@ -76,7 +76,7 @@ public class Order {
         int productId = 0;
         try {
             System.out.print("Sipariş edilecek ürün ID: ");
-            productId = sc.nextInt();
+            productId = TryCatch.intGirisi();
         } catch (Exception e) {
 
             System.out.println("ID kabul edilmedi. " + e);
@@ -87,7 +87,7 @@ public class Order {
         for (Product p : ECommerceApp.productList) {
             if (p.productId == productId) {
                 System.out.print("Sipariş adeti: ");
-                int quantity = sc.nextInt();
+                int quantity = TryCatch.intGirisi();
                 Order newOrder = new Order(quantity, p);
                 ECommerceApp.orderList.add(newOrder);
                 System.out.println(productId);
