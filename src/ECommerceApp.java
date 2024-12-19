@@ -16,15 +16,11 @@ public class ECommerceApp {
         Product blanket = new Product("Blanket" , "HomeStuff",1530.0,90);
         Product babydoll = new Product("Babydoll" , "Toys",750.0,40);
         productList.addAll(List.of(notebook,blanket,babydoll));
+        System.out.println(productList);
 
         Order.menu();
-        //Order.addNewProduct();
-        System.out.println(productList);
-        Order school = new Order(3,productList.get(0));
 
-        Order.listProducts();
-        Order.orderProduct();
-        Order.listProducts();
+
 
     }
 

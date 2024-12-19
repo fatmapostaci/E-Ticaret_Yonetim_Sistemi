@@ -18,10 +18,10 @@ public class Product {
 
     @Override
     public String toString() {
-        return  " productId= " + productId +
-                " name= " + name +
-                " category= " + category +
-                " price= " + price +
-                " stock="  + stock +"\n";
+        return  "    productId: " + productId +
+                "    name: " + name +
+                "    category: " + category +
+                "    price: " + price +
+                "    stock:"  + stock +"";
     }
 }
