@@ -169,7 +169,7 @@ public class Order {
 
         }
         int quantity;
-        //the stock is available, user may order as the amount of quantity lower than the stock amount
+        //as if the stock is available, user may order as the amount of quantity lower than the stock amount
         while (selectedProduct.stock > 0) {
             System.out.print("Sipariş adeti: ");
             quantity = TryCatch.intInput();
