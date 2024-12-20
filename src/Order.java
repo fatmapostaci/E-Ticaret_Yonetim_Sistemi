@@ -43,9 +43,8 @@ public class Order {
 
         if (quantity > 0)
             this.quantity = quantity;
-        else {
-            this.quantity = 0;
-        }
+        else
+            this.quantity = 1;
         this.totalPrice = product.price * quantity;
 
         this.product = product;
@@ -161,62 +160,74 @@ public class Order {
         boolean flag = false;
         Product selectedProduct = null;
         for (Product p : ECommerceApp.productList) {
+
             if (p.productId == productId) {
                 selectedProduct = p;
                 flag = true;
+
+            }
+
+        }
+        int quantity;
+        //the stock is available, user may order as the amount of quantity lower than the stock amount
+        while (selectedProduct.stock > 0) {
+            System.out.print("Sipariş adeti: ");
+            quantity = TryCatch.intInput();
+            if (quantity < 0) {
+                System.out.println("Sipariş adeti geçersiz!");
+                continue;
+            } else if (quantity > selectedProduct.stock) {
+                System.out.println("Sipariş adeti stoğu aşamaz! ");
+                continue;
+            } else {
+                Order newOrder = new Order(quantity, selectedProduct);
+                ECommerceApp.orderList.add(newOrder);
+                System.out.println(productId);
+                // decrease the stock depending on the quantity
+                selectedProduct.stock -= quantity;
+                System.out.println("Sipariş alındı!");
+                break;
             }
         }
-        if (flag == true) {
-            int quantity;
-            do {
-                System.out.print("Sipariş adeti: ");
-                quantity = TryCatch.intInput();
-                if(quantity<=0){
-                    System.out.println("Sipariş adeti geçersiz!");
-                    continue;
-                } else if (quantity> selectedProduct.stock) {
-                    System.out.println("Sipariş adeti stoğu aşamaz! ");
-                    continue;
-                }
-                else {
-                    Order newOrder = new Order(quantity, selectedProduct);
-                    ECommerceApp.orderList.add(newOrder);
-                    System.out.println(productId);
-                    selectedProduct.stock -= quantity;
-                    System.out.println("Sipariş alındı!");
-                    break;
-                }
-            } while (selectedProduct.stock>0);
-        } else {
-            //If the product ID is invalid, the user is notified and prompted again recursively.
-            // The products are listed before asking for productId
-            System.out.println("GEÇERSİZ ID!");
-            listProducts();
-            orderProduct();
-        }
 
+
+
+
+        if(selectedProduct.stock ==0)
+
+    {
+        System.out.println("Ürün stoğu tükenmiş...!");
+    } else {
+        System.out.println("GEÇERSİZ ID!");
+        //If the product ID is invalid, the user is notified and prompted again recursively.
+        // The products are listed before asking for productId111
+        listProducts();
+        orderProduct();
     }
 
-    /**
-     * Lists all products in the product list.
-     */
-    public static void listProducts() {
 
-        System.out.println(B + "---------------------------------Sisteme Yüklenen Ürün Listesi------------------------- ");
+}
 
-        for (Product products : ECommerceApp.productList)
-            System.out.println(B + products);
-        System.out.println(B + "--------------------------------------------------------------------------------------- ");
-    }
+/**
+ * Lists all products in the product list.
+ */
+public static void listProducts() {
 
-    /**
-     * Lists all sold products by displaying the orders in the order list.
-     */
-    public static void listSoldProducts() {
+    System.out.println(B + "---------------------------------Sisteme Yüklenen Ürün Listesi------------------------- ");
 
-        System.out.println(B + "--------------------------------Sipariş Edilen Ürün Listesi---------------------------- ");
-        for (Order orders : ECommerceApp.orderList)
-            System.out.println(B + orders);
-        System.out.println(B + "--------------------------------------------------------------------------------------- ");
-    }
+    for (Product products : ECommerceApp.productList)
+        System.out.println(B + products);
+    System.out.println(B + "--------------------------------------------------------------------------------------- ");
+}
+
+/**
+ * Lists all sold products by displaying the orders in the order list.
+ */
+public static void listSoldProducts() {
+
+    System.out.println(B + "--------------------------------Sipariş Edilen Ürün Listesi---------------------------- ");
+    for (Order orders : ECommerceApp.orderList)
+        System.out.println(B + orders);
+    System.out.println(B + "--------------------------------------------------------------------------------------- ");
+}
 }
