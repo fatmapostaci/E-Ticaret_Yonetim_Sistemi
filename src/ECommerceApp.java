@@ -10,13 +10,11 @@ public class ECommerceApp {
 
     public static void main(String[] args) {
 
-
-
+        // added some products to list manually
         Product notebook = new Product("Notebook" , "Electronics",5350.0,340);
         Product blanket = new Product("Blanket" , "HomeStuff",1530.0,90);
         Product babydoll = new Product("Babydoll" , "Toys",750.0,40);
         productList.addAll(List.of(notebook,blanket,babydoll));
-        System.out.println(productList);
 
         Order.menu();
 

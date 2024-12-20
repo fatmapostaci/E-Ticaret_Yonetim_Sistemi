@@ -1,5 +1,6 @@
 import java.util.List;
 import java.util.Scanner;
+import java.util.spi.AbstractResourceBundleProvider;
 
 /**
  * This class represents an Order in the e-commerce application.
@@ -39,8 +40,14 @@ public class Order {
      * @param product  the product being ordered
      */
     public Order(int quantity, Product product) {
+
+        if (quantity > 0)
+            this.quantity = quantity;
+        else {
+            this.quantity = 0;
+        }
         this.totalPrice = product.price * quantity;
-        this.quantity = quantity;
+
         this.product = product;
         this.orderId = base + orderIdCounter++;
     }
@@ -54,44 +61,55 @@ public class Order {
     public String toString() {
         return
                 "    orderId: " + orderId +
-                "    product: "+ product +
-                "    quantity: "+ quantity +
-                "    totalPrice: " + totalPrice ;
+                        "    product: " + product +
+                        "    quantity: " + quantity +
+                        "    totalPrice: " + totalPrice;
     }
 
     /**
      * Displays the menu options for the e-commerce application and processes user selections.
-     *
+     * <p>
      * The menu includes the following options:
-     *
-     *     Add a new product
-     *     List all products
-     *     Create a new order
-     *     View all sold products
-     *     Exit the application
-     *
+     * <p>
+     * Add a new product
+     * List all products
+     * Create a new order
+     * View all sold products
+     * Exit the application
+     * <p>
      * Based on the user's input, the corresponding method is executed.
      * The menu runs in an infinite loop until the user selects the exit option.
      */
     public static void menu() {
-        while (true){
-            System.out.println(G +"--------------------MENU--------------------- \n" +
+        while (true) {
+            System.out.println(G + "--------------------MENU--------------------- \n" +
                     "   - 1: **Ürün Ekle**: \n" +
                     "   - 2: **Ürünleri Listele**: \n" +
                     "   - 3: **Sipariş Oluştur**: \n" +
                     "   - 4: **Toplam Satılan Ürünleri Görüntüle**.\n" +
-                    "   - 5: **Çıkış**\n"+
-                    "--------------------MENU--------------------- \n" +G);
-            System.out.printf( "Seçiminizi yapın: ");
+                    "   - 5: **Çıkış**\n" +
+                    "--------------------MENU--------------------- \n" + G);
+            System.out.printf("Seçiminizi yapın: ");
             int secim = TryCatch.intInput();
 
-            switch (secim){
-                case 1: addNewProduct(); break;
-                case 2: listProducts(); break;
-                case 3: orderProduct(); break;
-                case 4: listSoldProducts(); break;
-                case 5: System.exit(0); break;
-                default: break;
+            switch (secim) {
+                case 1:
+                    addNewProduct();
+                    break;
+                case 2:
+                    listProducts();
+                    break;
+                case 3:
+                    orderProduct();
+                    break;
+                case 4:
+                    listSoldProducts();
+                    break;
+                case 5:
+                    System.exit(0);
+                    break;
+                default:
+                    break;
             }
         }
 
@@ -102,7 +120,7 @@ public class Order {
      * Collects product name, category, price, and stock from the user.
      */
     public static void addNewProduct() {
-        System.out.println(B+"---------Sisteme Yeni Ürün Ekleme------- ");
+        System.out.println(B + "---------Sisteme Yeni Ürün Ekleme------- ");
         System.out.print("Ürün adı: ");
         String name = TryCatch.stringInput();
         System.out.print("Kategori bilgisi: ");
@@ -132,7 +150,7 @@ public class Order {
      */
     public static void orderProduct() {
 
-        System.out.println(B+"---------Listedeki Ürünlerden Sipariş Oluşturun------- ");
+        System.out.println(B + "---------Listedeki Ürünlerden Sipariş Oluşturun------- ");
 
         int productId = 0;
 
@@ -144,24 +162,39 @@ public class Order {
         Product selectedProduct = null;
         for (Product p : ECommerceApp.productList) {
             if (p.productId == productId) {
-                selectedProduct=p;
+                selectedProduct = p;
                 flag = true;
-            }}
-        if (flag==true){
-                System.out.print("Sipariş adeti: ");
-                int quantity = TryCatch.intInput();
-                Order newOrder = new Order(quantity, selectedProduct);
-                ECommerceApp.orderList.add(newOrder);
-                System.out.println(productId);
-                
-            } else {
-                //If the product ID is invalid, the user is notified and prompted again recursively.
-                // The products are listed before asking for productId
-                System.out.println("GEÇERSİZ ID!");
-                listProducts();
-                orderProduct();
             }
-        
+        }
+        if (flag == true) {
+            int quantity;
+            do {
+                System.out.print("Sipariş adeti: ");
+                quantity = TryCatch.intInput();
+                if(quantity<=0){
+                    System.out.println("Sipariş adeti geçersiz!");
+                    continue;
+                } else if (quantity> selectedProduct.stock) {
+                    System.out.println("Sipariş adeti stoğu aşamaz! ");
+                    continue;
+                }
+                else {
+                    Order newOrder = new Order(quantity, selectedProduct);
+                    ECommerceApp.orderList.add(newOrder);
+                    System.out.println(productId);
+                    selectedProduct.stock -= quantity;
+                    System.out.println("Sipariş alındı!");
+                    break;
+                }
+            } while (selectedProduct.stock>0);
+        } else {
+            //If the product ID is invalid, the user is notified and prompted again recursively.
+            // The products are listed before asking for productId
+            System.out.println("GEÇERSİZ ID!");
+            listProducts();
+            orderProduct();
+        }
+
     }
 
     /**
@@ -169,11 +202,11 @@ public class Order {
      */
     public static void listProducts() {
 
-        System.out.println(B+"---------------------------------Sisteme Yüklenen Ürün Listesi------------------------- ");
+        System.out.println(B + "---------------------------------Sisteme Yüklenen Ürün Listesi------------------------- ");
 
         for (Product products : ECommerceApp.productList)
-            System.out.println(B+products);
-        System.out.println(B+"--------------------------------------------------------------------------------------- ");
+            System.out.println(B + products);
+        System.out.println(B + "--------------------------------------------------------------------------------------- ");
     }
 
     /**
@@ -181,9 +214,9 @@ public class Order {
      */
     public static void listSoldProducts() {
 
-        System.out.println(B+"--------------------------------Sipariş Edilen Ürün Listesi---------------------------- ");
+        System.out.println(B + "--------------------------------Sipariş Edilen Ürün Listesi---------------------------- ");
         for (Order orders : ECommerceApp.orderList)
-            System.out.println(B+orders);
-        System.out.println(B+"--------------------------------------------------------------------------------------- ");
+            System.out.println(B + orders);
+        System.out.println(B + "--------------------------------------------------------------------------------------- ");
     }
 }
