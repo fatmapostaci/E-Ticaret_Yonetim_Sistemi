@@ -3,6 +3,14 @@ Bu proje, öğrencilerin POJO class, constructor, static ve instance değişkenl
 uygulamalı olarak öğrenmelerini sağlayacak.
 Aşağıda proje adımları detaylı bir şekilde açıklanmıştır.
 ---
+NOT
+stok kontrolü methodu ekle
+orderid sipariş bazlı olsun product bazlı olmasın
+1 siparişin 1den fazla product ı olabilmeli
+
+
+
+
 ## 1. Adım: Projenin Tanıtımı
 - **Amaç:** Bir e-ticaret uygulaması oluşturarak, ürünlerin takibini ve sipariş oluşturmayı sağlamak.
 - **Hedef:** POJO class oluşturmak, static ve instance değişkenler kullanmak ve constructor’larla nesne oluşturmayı anlamak.
